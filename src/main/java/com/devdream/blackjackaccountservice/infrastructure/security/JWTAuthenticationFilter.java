@@ -1,6 +1,7 @@
 package com.devdream.blackjackaccountservice.infrastructure.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,8 +11,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Collections;
-
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -19,7 +23,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
 
-        AuthCredentials authCredentials = new AuthCredentials();
+        AuthCredentials authCredentials;
         try {
             authCredentials = new ObjectMapper().readValue(request.getReader(), AuthCredentials.class);
         } catch (IOException e) {
@@ -43,9 +47,18 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         UserDetailsImplementation userDetailsImplementation = (UserDetailsImplementation)authResult.getPrincipal();
         String token = TokenUtils.createToken(userDetailsImplementation.getName(), userDetailsImplementation.getUsername());
+        Date expiration = TokenUtils.getExpirationDate();
+        Map<String, Object> data = new HashMap<>();
+        data.put("message", "Correct credentials");
+        data.put("token", token);
+        data.put("expiration", expiration);
+        String responseToClient = new Gson().toJson(data);
 
-        response.addHeader("Authorization", "Bearer " + token);
-        response.getWriter().flush();
+        PrintWriter out = response.getWriter();
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        out.print(responseToClient);
+        out.flush();
 
         super.successfulAuthentication(request, response, chain, authResult);
     }

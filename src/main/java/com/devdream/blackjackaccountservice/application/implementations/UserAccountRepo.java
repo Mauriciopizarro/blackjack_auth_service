@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -29,9 +30,11 @@ public class UserAccountRepo {
     }
 
     public User getByEmail(String email){
-        return userAccountRepository
-                .getUserByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User "+email+" not found"));
+        return userAccountRepository.getUserByEmail(email);
+    }
+
+    public long countFetchedDocumentsForEmail(String email){
+        return userAccountRepository.countFetchedDocumentsForEmail(email);
     }
 
     public List<User> findAll(){

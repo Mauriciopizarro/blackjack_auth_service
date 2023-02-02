@@ -2,6 +2,7 @@ package com.devdream.blackjackaccountservice.infrastructure.security;
 
 import com.devdream.blackjackaccountservice.domain.models.User;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,6 +12,7 @@ import java.util.Collections;
 @AllArgsConstructor
 public class UserDetailsImplementation implements UserDetails {
 
+    @NonNull
     private final User user;
 
     @Override

@@ -12,13 +12,14 @@ public class TokenUtils {
 
     private final static String ACCESS_TOKEN_SECRET = "KbPeShVmYq3s6v9y$B&E)H@McQfTjWnZ(n";
     private final static Long ACCESS_TOKEN_VALIDATE_SECONDS = 2_592_000L;
+    private static Date expirationDate;
 
     public static String createToken(String name, String email) {
         long expirationTime = ACCESS_TOKEN_VALIDATE_SECONDS * 1000;
-        Date expirationDate = new Date(System.currentTimeMillis() + expirationTime);
-
+        expirationDate = new Date(System.currentTimeMillis() + expirationTime);
         Map<String, Object> extra = new HashMap<>();
         extra.put("name", name);
+
         return Jwts.builder()
                 .setSubject(email)
                 .setExpiration(expirationDate)
@@ -26,7 +27,6 @@ public class TokenUtils {
                 .signWith(Keys.hmacShaKeyFor(ACCESS_TOKEN_SECRET.getBytes()))
                 .compact();
     }
-
     public static UsernamePasswordAuthenticationToken getAuthentication(String token){
         try {
             Claims claims = Jwts.parserBuilder()
@@ -41,6 +41,10 @@ public class TokenUtils {
         catch (JwtException e){
             return null;
         }
+    }
+
+    public static Date getExpirationDate(){
+        return expirationDate;
     }
 
 }
