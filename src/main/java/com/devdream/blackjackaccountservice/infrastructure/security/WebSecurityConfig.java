@@ -27,18 +27,20 @@ public class WebSecurityConfig {
     @Autowired
     private final JWTAuthorizationFilter jwtAuthorizationFilter;
 
-
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager) throws Exception {
 
         JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter();
         jwtAuthenticationFilter.setAuthenticationManager(authenticationManager);
-        jwtAuthenticationFilter.setFilterProcessesUrl("/api/v1/account/login");
+        jwtAuthenticationFilter.setFilterProcessesUrl("/login");
+
+        http.exceptionHandling().authenticationEntryPoint(new AuthExceptionEntryPoint());
 
         return http
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/account/sign_up").permitAll()
+                .requestMatchers("/api/sign_up")
+                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

@@ -13,10 +13,4 @@ public class SecurityPass {
                 new BCryptPasswordEncoder(strength, new SecureRandom());
         return bCryptPasswordEncoder.encode(plainPassword);
     }
-
-    public boolean validatePassword(String dbPassword, String plainPassword){
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        return encoder.matches(plainPassword, dbPassword);
-    }
-
 }
