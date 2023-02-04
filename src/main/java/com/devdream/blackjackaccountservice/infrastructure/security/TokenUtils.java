@@ -42,7 +42,6 @@ public class TokenUtils {
             return null;
         }
     }
-
     public static Date getExpirationDate(){
         return expirationDate;
     }

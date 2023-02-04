@@ -49,7 +49,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String token = TokenUtils.createToken(userDetailsImplementation.getName(), userDetailsImplementation.getUsername());
         Date expiration = TokenUtils.getExpirationDate();
         Map<String, Object> data = new HashMap<>();
-        data.put("message", "Correct credentials");
         data.put("token", token);
         data.put("expiration", expiration);
         String responseToClient = new Gson().toJson(data);

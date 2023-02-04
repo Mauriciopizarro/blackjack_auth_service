@@ -6,6 +6,7 @@ import com.devdream.blackjackaccountservice.domain.models.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,13 +18,13 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/auth")
 public class SignUpController {
 
     @Autowired
     private final SignUpService signUpService;
 
-    @PostMapping("/sign_up")
+    @PostMapping("/register")
     public Map<String, String> signUp(@RequestBody User user) throws EmailUsedException {
         try {
             Map<String, String> response = new HashMap<>();
@@ -34,6 +35,5 @@ public class SignUpController {
         catch (EmailUsedException e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email in use");
         }
-
     }
 }
