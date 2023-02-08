@@ -2,7 +2,6 @@ package com.devdream.blackjackaccountservice.infrastructure.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,7 +29,6 @@ public class WebSecurityConfig {
     private final JWTAuthorizationFilter jwtAuthorizationFilter;
 
     @Autowired
-    @Qualifier("customAuthenticationEntryPoint")
     AuthenticationEntryPoint authEntryPoint;
 
     @Bean
@@ -68,5 +66,4 @@ public class WebSecurityConfig {
     PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
-
 }
