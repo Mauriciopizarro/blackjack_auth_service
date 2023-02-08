@@ -19,13 +19,12 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
                          HttpServletResponse response,
                          AuthenticationException authException) throws IOException {
 
-        RestError re = new RestError(HttpStatus.UNAUTHORIZED.toString(), "Authentication failed, please check password or email");
+        RestError re = new RestError(HttpStatus.UNAUTHORIZED.toString(), "Authentication failed, check credentials or token");
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         OutputStream responseStream = response.getOutputStream();
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(responseStream, re);
         responseStream.flush();
-
     }
 }
