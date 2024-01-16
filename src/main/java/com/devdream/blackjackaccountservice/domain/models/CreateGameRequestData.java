@@ -1,13 +1,14 @@
 package com.devdream.blackjackaccountservice.domain.models;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@Data
+@NoArgsConstructor
 @AllArgsConstructor
-public class Admin {
+@ToString
+public class CreateGameRequestData {
 
     public String name;
     public String id;
-
 }

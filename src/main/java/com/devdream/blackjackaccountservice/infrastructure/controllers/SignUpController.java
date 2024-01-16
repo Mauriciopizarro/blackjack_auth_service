@@ -20,7 +20,7 @@ import java.util.Map;
 public class SignUpController {
 
     @Autowired
-    private final SignUpService signUpService;
+    private SignUpService signUpService;
 
     @PostMapping("/register")
     public Map<String, String> signUp(@RequestBody User user) throws EmailUsedException {
