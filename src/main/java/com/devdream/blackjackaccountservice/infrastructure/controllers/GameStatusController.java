@@ -24,7 +24,7 @@ public class GameStatusController {
     @GetMapping("/status/{gameId}")
     public Object getStatus(@PathVariable String gameId) throws IOException, HttpClientErrorException {
         try {
-            String url = ("http://gateway:8080/api/v1/game/status/" + gameId);
+            String url = ("http://blackjack-app-java:8080/api/v1/game/status/" + gameId);
             ObjectMapper mapper = new ObjectMapper();
             ResponseEntity<String> response = this.restTemplate.getForEntity(url, String.class);
             String body = response.getBody();
