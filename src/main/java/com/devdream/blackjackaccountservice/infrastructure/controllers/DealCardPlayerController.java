@@ -48,7 +48,7 @@ public class DealCardPlayerController {
             return ResponseEntity.ok(responseEntity.getBody());
         }
         catch (HttpClientErrorException ex) {
-            throw new ResponseStatusException(ex.getStatusCode(), ex.getMessage(), ex);
+            throw new ResponseStatusException(ex.getStatusCode(), ex.getMessage());
         }
     }
 }
