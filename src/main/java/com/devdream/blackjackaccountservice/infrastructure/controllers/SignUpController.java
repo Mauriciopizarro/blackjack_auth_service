@@ -3,6 +3,7 @@ package com.devdream.blackjackaccountservice.infrastructure.controllers;
 import com.devdream.blackjackaccountservice.application.services.SignUpService;
 import com.devdream.blackjackaccountservice.application.services.exceptions.EmailUsedException;
 import com.devdream.blackjackaccountservice.domain.models.User;
+import com.devdream.blackjackaccountservice.infrastructure.publisher.Publisher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,12 +23,16 @@ public class SignUpController {
     @Autowired
     private SignUpService signUpService;
 
+    @Autowired
+    private final Publisher publisher = new Publisher();
+
     @PostMapping("/register")
     public Map<String, String> signUp(@RequestBody User user) throws EmailUsedException {
         try {
             Map<String, String> response = new HashMap<>();
             signUpService.signUp(user);
             response.put("message", "User " + user.getName() + " register successfully");
+            this.publisher.send(user.email);
             return response;
         }
         catch (EmailUsedException e){

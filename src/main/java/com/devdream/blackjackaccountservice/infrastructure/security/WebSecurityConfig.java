@@ -42,8 +42,8 @@ public class WebSecurityConfig {
         return http
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/auth/**")
-                .permitAll()
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/actuator/health").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
