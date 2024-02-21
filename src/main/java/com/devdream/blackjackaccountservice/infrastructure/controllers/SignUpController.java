@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.HashMap;
 import java.util.Map;
+import com.google.gson.Gson;
 
 @RequiredArgsConstructor
 @RestController
@@ -30,9 +31,16 @@ public class SignUpController {
     public Map<String, String> signUp(@RequestBody User user) throws EmailUsedException {
         try {
             Map<String, String> response = new HashMap<>();
+            Map<String, String> body = new HashMap<>();
             signUpService.signUp(user);
             response.put("message", "User " + user.getName() + " register successfully");
-            this.publisher.send(user.email);
+            body.put("email", user.getEmail());
+            body.put("subject", "User successfully created");
+            body.put("username", user.getName());
+            Gson gson = new Gson();
+            String json = gson.toJson(body);
+
+            this.publisher.send(json);
             return response;
         }
         catch (EmailUsedException e){
